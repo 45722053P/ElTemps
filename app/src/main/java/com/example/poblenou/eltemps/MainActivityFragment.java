@@ -32,7 +32,6 @@ import retrofit.http.GET;
 public class MainActivityFragment extends Fragment {
 
     //Inicializamos las variables.
-    private static final String APPID = "6ccb7be7c112de46b04c27a3f1dafda9";
     ListView tablaDias;
     ArrayList items;
     ArrayAdapter<String>adaptador;
@@ -108,7 +107,7 @@ public class MainActivityFragment extends Fragment {
     public void botonRefresh(){
 
         OwpApiClient apiClient= new OwpApiClient();
-        apiClient.updateForecasts(adaptador);
+        apiClient.updateForecasts(adaptador,getContext());
 
 
     }

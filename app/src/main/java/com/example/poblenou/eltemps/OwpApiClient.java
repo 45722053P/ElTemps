@@ -2,6 +2,9 @@ package com.example.poblenou.eltemps;
 
 import com.example.poblenou.eltemps.json.Forecast;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import com.example.poblenou.eltemps.json.List;
@@ -49,9 +52,21 @@ public class OwpApiClient {
     }
 
 
-    public void updateForecasts(final ArrayAdapter<String> adapter) {
+    public void updateForecasts(final ArrayAdapter<String> adapter,Context context) {
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String city = preferences.getString("City", "Barcelona");
+        String valorUnits;
+        if(preferences.getString("Unit","0").equals(0)){
+
+            valorUnits="metric";
+        }else{
+            valorUnits="imperial";
+        }
+
+
         Call<Forecast> forecastCall = service.dailyForecast(
-                Ciudad, "json", "metric", 14, APPID //Al hacer la llamada le introducimos los parametros para la llama en este caso son:
+                city, "json", valorUnits, 14, APPID //Al hacer la llamada le introducimos los parametros para la llama en este caso son:
                                                     // el nombre de la ciudad , Json , metric,que seran 14 dias la prevision del tiempo y la APPID.
         );
         forecastCall.enqueue(new Callback<Forecast>() {
